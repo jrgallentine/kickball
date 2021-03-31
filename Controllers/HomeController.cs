@@ -11,21 +11,26 @@ namespace KickballCats.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        WeatherDAL wdal = new WeatherDAL();
+        private readonly kickballContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(kickballContext context)
         {
-            _logger = logger;
+            _context = context;
         }
-
+        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+            dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dtDateTime;
+        }
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            Rootobject w = new Rootobject();
+            w = wdal.SomeWeather();
+            UnixTimeStampToDateTime(w.hourly[1].dt).ToString();
+            return View(w);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

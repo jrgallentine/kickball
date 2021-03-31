@@ -1,8 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model Rootobject
+@{ 
+    System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+    dtDateTime = dtDateTime.AddSeconds(@Model.current.dt).ToLocalTime();
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <h3>Current Weather:</h3>
+    <p>@dtDateTime</p>
+    <p>@Model.current.temp&deg;</p>
+    @foreach (Weather w in Model.current.weather)
+    {
+        <p>@w.description</p>
+    }
+
