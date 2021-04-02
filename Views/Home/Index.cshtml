@@ -1,14 +1,8 @@
-﻿@model Rootobject
-@{ 
-    System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-    dtDateTime = dtDateTime.AddSeconds(@Model.current.dt).ToLocalTime();
-}
+﻿@model Home
 
     <h3>Current Weather:</h3>
-    <p>@dtDateTime</p>
-    <p>@Model.current.temp&deg;</p>
-    @foreach (Weather w in Model.current.weather)
-    {
-        <p>@w.description</p>
-    }
+    <p>@Model.dt</p>
+    <p>@Model.currentTemp&deg;F</p>
+    <p>@Model.weather</p>
+    <p>@Model.PokeName</p>
 

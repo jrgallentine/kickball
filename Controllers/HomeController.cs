@@ -12,11 +12,13 @@ namespace KickballCats.Controllers
     public class HomeController : Controller
     {
         WeatherDAL wdal = new WeatherDAL();
-        private readonly kickballContext _context;
+        private readonly kickballContext _kbContext;
+        PokeDAL pdal = new PokeDAL();
+
 
         public HomeController(kickballContext context)
         {
-            _context = context;
+            _kbContext = context;
         }
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
@@ -29,8 +31,23 @@ namespace KickballCats.Controllers
         {
             Rootobject w = new Rootobject();
             w = wdal.SomeWeather();
-            UnixTimeStampToDateTime(w.hourly[1].dt).ToString();
-            return View(w);
+
+            Home h = new Home();
+            h.currentTemp = Math.Round(w.current.temp);
+            foreach(Weather weather in w.current.weather)
+            {
+                h.weather = weather.description;
+            }
+            string hmm = h.currentTemp.ToString();
+            int.TryParse(hmm, out int hm2);
+            h.dt = UnixTimeStampToDateTime(w.current.dt);
+            Pokemon p = new Pokemon();
+            p = pdal.SomePokemon(hm2);
+
+            h.PokeId = hm2;
+            h.PokeName = p.name;
+
+            return View(h);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
