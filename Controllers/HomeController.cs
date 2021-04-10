@@ -14,6 +14,7 @@ namespace KickballCats.Controllers
         WeatherDAL wdal = new WeatherDAL();
         private readonly kickballContext _kbContext;
         PokeDAL pdal = new PokeDAL();
+        xDAL xdal = new xDAL();
 
 
         public HomeController(kickballContext context)
@@ -46,6 +47,11 @@ namespace KickballCats.Controllers
 
             h.PokeId = hm2;
             h.PokeName = p.name;
+
+            xkcd x = new xkcd();
+            x = xdal.SomeX(p.weight);
+
+            h.ComicImg = x.img;
 
             return View(h);
         }

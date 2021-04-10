@@ -12,5 +12,7 @@ namespace KickballCats.Models
         public string weather { get; set; }
         public int PokeId { get; set; }
         public string PokeName { get; set; }
+        public int PokeWeight { get; set; }
+        public string ComicImg { get; set; }
     }
 }
